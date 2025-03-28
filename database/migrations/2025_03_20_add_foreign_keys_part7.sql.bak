@@ -1,0 +1,9 @@
+ALTER TABLE addresses
+ADD CONSTRAINT fk_addresses_user_id FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
+
+ALTER TABLE seo
+ADD CONSTRAINT fk_seo_page_id FOREIGN KEY (page_id) REFERENCES pages(id) ON DELETE CASCADE;
+
+ALTER TABLE inventory
+ADD CONSTRAINT fk_inventory_product_id FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
+ADD CONSTRAINT fk_inventory_warehouse_id FOREIGN KEY (warehouse_id) REFERENCES warehouses(id) ON DELETE CASCADE;

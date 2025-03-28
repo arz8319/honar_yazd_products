@@ -1,0 +1,8 @@
+ALTER TABLE refunds
+ADD CONSTRAINT fk_refunds_order_id FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE;
+
+ALTER TABLE live_chats
+ADD CONSTRAINT fk_live_chats_user_id FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
+
+ALTER TABLE analytics
+ADD CONSTRAINT fk_analytics_user_id FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL;

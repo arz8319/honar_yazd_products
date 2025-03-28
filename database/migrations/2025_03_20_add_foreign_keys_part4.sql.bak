@@ -1,0 +1,11 @@
+ALTER TABLE poll_votes
+ADD CONSTRAINT fk_poll_votes_poll_id FOREIGN KEY (poll_id) REFERENCES polls(id) ON DELETE CASCADE,
+ADD CONSTRAINT fk_poll_votes_user_id FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+ADD CONSTRAINT fk_poll_votes_option_id FOREIGN KEY (option_id) REFERENCES poll_options(id) ON DELETE CASCADE;
+
+ALTER TABLE reviews
+ADD CONSTRAINT fk_reviews_product_id FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
+ADD CONSTRAINT fk_reviews_user_id FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
+
+ALTER TABLE carts
+ADD CONSTRAINT fk_carts_user_id FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;

@@ -1,0 +1,3 @@
+INSERT OR IGNORE INTO post_translations (post_id, lang, title, content) VALUES (1, 'fa', 'خوش آمدید به هنر یزد', 'این اولین پست وبلاگ در پلتفرم ماست...');
+INSERT OR IGNORE INTO post_translations (post_id, lang, title, content) VALUES (1, 'en', 'Welcome to Honar Yazd', 'This is the first blog post on our platform...');
+INSERT OR IGNORE INTO post_translations (post_id, lang, title, content) VALUES (1, 'ar', 'مرحبًا بكم في فن يزد', 'هذا هو أول منشور في مدونتنا...');

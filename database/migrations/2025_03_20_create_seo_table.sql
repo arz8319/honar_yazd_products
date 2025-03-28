@@ -1,0 +1,8 @@
+CREATE TABLE seo (
+id INT AUTO_INCREMENT PRIMARY KEY,
+page_id INT NOT NULL,
+meta_title VARCHAR(255) NOT NULL,
+meta_description TEXT NOT NULL,
+keywords JSON,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

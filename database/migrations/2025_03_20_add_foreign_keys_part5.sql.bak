@@ -1,0 +1,8 @@
+ALTER TABLE payments
+ADD CONSTRAINT fk_payments_order_id FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE;
+
+ALTER TABLE notifications
+ADD CONSTRAINT fk_notifications_user_id FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
+
+ALTER TABLE discounts
+ADD CONSTRAINT fk_discounts_product_id FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE;

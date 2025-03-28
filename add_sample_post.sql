@@ -1,0 +1,2 @@
+INSERT OR IGNORE INTO blog_posts (id, title, content, author_id, category_id, tags, created_at)
+VALUES (1, 'Welcome to Honar Yazd', 'This is the first blog post on our platform...', 1, 1, '[]', '2025-03-25 10:00:00');

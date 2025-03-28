@@ -1,0 +1,9 @@
+ALTER TABLE users
+ADD CONSTRAINT fk_users_role_id FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE SET NULL;
+
+ALTER TABLE products
+ADD CONSTRAINT fk_products_category_id FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL,
+ADD CONSTRAINT fk_products_seller_id FOREIGN KEY (seller_id) REFERENCES sellers(id) ON DELETE SET NULL;
+
+ALTER TABLE orders
+ADD CONSTRAINT fk_orders_user_id FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;

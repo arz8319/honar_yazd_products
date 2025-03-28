@@ -1,0 +1,470 @@
+-- جدول users
+CREATE TABLE users (
+id INT AUTO_INCREMENT PRIMARY KEY,
+name VARCHAR(255) NOT NULL,
+email VARCHAR(255) UNIQUE NOT NULL,
+password VARCHAR(255) NOT NULL,
+role_id INT DEFAULT NULL,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY (role_id) REFERENCES roles(id)
+);
+
+-- جدول products
+CREATE TABLE products (
+id INT AUTO_INCREMENT PRIMARY KEY,
+name VARCHAR(255) NOT NULL,
+description TEXT,
+price DECIMAL(10, 2) NOT NULL,
+stock INT NOT NULL,
+category_id INT DEFAULT NULL,
+seller_id INT DEFAULT NULL,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY (category_id) REFERENCES categories(id),
+FOREIGN KEY (seller_id) REFERENCES sellers(id)
+);
+
+-- جدول orders
+CREATE TABLE orders (
+id INT AUTO_INCREMENT PRIMARY KEY,
+user_id INT NOT NULL,
+total DECIMAL(10, 2) NOT NULL,
+status VARCHAR(50) DEFAULT 'pending',
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+-- جدول order_items
+CREATE TABLE order_items (
+id INT AUTO_INCREMENT PRIMARY KEY,
+order_id INT NOT NULL,
+product_id INT NOT NULL,
+quantity INT NOT NULL,
+price DECIMAL(10, 2) NOT NULL,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY (order_id) REFERENCES orders(id),
+FOREIGN KEY (product_id) REFERENCES products(id)
+);
+
+-- جدول blog_posts
+CREATE TABLE blog_posts (
+id INT AUTO_INCREMENT PRIMARY KEY,
+title VARCHAR(255) NOT NULL,
+content TEXT NOT NULL,
+author_id INT NOT NULL,
+category_id INT DEFAULT NULL,
+tags JSON DEFAULT NULL,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY (author_id) REFERENCES users(id),
+FOREIGN KEY (category_id) REFERENCES categories(id)
+);
+
+-- جدول blog_comments
+CREATE TABLE blog_comments (
+id INT AUTO_INCREMENT PRIMARY KEY,
+post_id INT NOT NULL,
+user_id INT NOT NULL,
+comment TEXT NOT NULL,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY (post_id) REFERENCES blog_posts(id),
+FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+-- جدول tickets
+CREATE TABLE tickets (
+id INT AUTO_INCREMENT PRIMARY KEY,
+user_id INT NOT NULL,
+subject VARCHAR(255) NOT NULL,
+description TEXT NOT NULL,
+status VARCHAR(50) DEFAULT 'open',
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+-- جدول ticket_replies
+CREATE TABLE ticket_replies (
+id INT AUTO_INCREMENT PRIMARY KEY,
+ticket_id INT NOT NULL,
+user_id INT NOT NULL,
+reply TEXT NOT NULL,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY (ticket_id) REFERENCES tickets(id),
+FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+-- جدول categories
+CREATE TABLE categories (
+id INT AUTO_INCREMENT PRIMARY KEY,
+name VARCHAR(255) NOT NULL,
+parent_id INT DEFAULT NULL,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY (parent_id) REFERENCES categories(id)
+);
+
+-- جدول sellers
+CREATE TABLE sellers (
+id INT AUTO_INCREMENT PRIMARY KEY,
+name VARCHAR(255) NOT NULL,
+email VARCHAR(255) UNIQUE NOT NULL,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- جدول warehouses
+CREATE TABLE warehouses (
+id INT AUTO_INCREMENT PRIMARY KEY,
+name VARCHAR(255) NOT NULL,
+location VARCHAR(255) NOT NULL,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- جدول campaigns
+CREATE TABLE campaigns (
+id INT AUTO_INCREMENT PRIMARY KEY,
+name VARCHAR(255) NOT NULL,
+start_date DATE NOT NULL,
+end_date DATE NOT NULL,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- جدول polls
+CREATE TABLE polls (
+id INT AUTO_INCREMENT PRIMARY KEY,
+question VARCHAR(255) NOT NULL,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- جدول poll_options
+CREATE TABLE poll_options (
+id INT AUTO_INCREMENT PRIMARY KEY,
+poll_id INT NOT NULL,
+option_text VARCHAR(255) NOT NULL,
+votes INT DEFAULT 0,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY (poll_id) REFERENCES polls(id)
+);
+
+-- جدول poll_votes
+CREATE TABLE poll_votes (
+id INT AUTO_INCREMENT PRIMARY KEY,
+poll_id INT NOT NULL,
+user_id INT NOT NULL,
+option_id INT NOT NULL,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY (poll_id) REFERENCES polls(id),
+FOREIGN KEY (user_id) REFERENCES users(id),
+FOREIGN KEY (option_id) REFERENCES poll_options(id)
+);
+
+-- جدول pages
+CREATE TABLE pages (
+id INT AUTO_INCREMENT PRIMARY KEY,
+title VARCHAR(255) NOT NULL,
+slug VARCHAR(255) UNIQUE NOT NULL,
+content TEXT NOT NULL,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- جدول reviews
+CREATE TABLE reviews (
+id INT AUTO_INCREMENT PRIMARY KEY,
+product_id INT NOT NULL,
+user_id INT NOT NULL,
+rating INT NOT NULL,
+comment TEXT,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY (product_id) REFERENCES products(id),
+FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+-- جدول carts
+CREATE TABLE carts (
+id INT AUTO_INCREMENT PRIMARY KEY,
+user_id INT NOT NULL,
+items JSON NOT NULL,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+-- جدول payments
+CREATE TABLE payments (
+id INT AUTO_INCREMENT PRIMARY KEY,
+order_id INT NOT NULL,
+amount DECIMAL(10, 2) NOT NULL,
+status VARCHAR(50) NOT NULL,
+gateway VARCHAR(50) NOT NULL,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY (order_id) REFERENCES orders(id)
+);
+
+-- جدول reports
+CREATE TABLE reports (
+id INT AUTO_INCREMENT PRIMARY KEY,
+type VARCHAR(50) NOT NULL,
+data JSON NOT NULL,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- جدول notifications
+CREATE TABLE notifications (
+id INT AUTO_INCREMENT PRIMARY KEY,
+user_id INT NOT NULL,
+message TEXT NOT NULL,
+type VARCHAR(50) NOT NULL,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+-- جدول settings
+CREATE TABLE settings (
+id INT AUTO_INCREMENT PRIMARY KEY,
+`key` VARCHAR(255) UNIQUE NOT NULL,
+`value` TEXT NOT NULL,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- جدول discounts
+CREATE TABLE discounts (
+id INT AUTO_INCREMENT PRIMARY KEY,
+product_id INT NOT NULL,
+percentage DECIMAL(5, 2) NOT NULL,
+start_date DATE NOT NULL,
+end_date DATE NOT NULL,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY (product_id) REFERENCES products(id)
+);
+
+-- جدول shipping
+CREATE TABLE shipping (
+id INT AUTO_INCREMENT PRIMARY KEY,
+order_id INT NOT NULL,
+address TEXT NOT NULL,
+status VARCHAR(50) DEFAULT 'pending',
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY (order_id) REFERENCES orders(id)
+);
+
+-- جدول emails
+CREATE TABLE emails (
+id INT AUTO_INCREMENT PRIMARY KEY,
+`to` VARCHAR(255) NOT NULL,
+subject VARCHAR(255) NOT NULL,
+body TEXT NOT NULL,
+status VARCHAR(50) DEFAULT 'pending',
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- جدول wallets
+CREATE TABLE wallets (
+id INT AUTO_INCREMENT PRIMARY KEY,
+user_id INT NOT NULL,
+balance DECIMAL(10, 2) NOT NULL DEFAULT 0,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+-- جدول wishlists
+CREATE TABLE wishlists (
+id INT AUTO_INCREMENT PRIMARY KEY,
+user_id INT NOT NULL,
+product_id INT NOT NULL,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY (user_id) REFERENCES users(id),
+FOREIGN KEY (product_id) REFERENCES products(id)
+);
+
+-- جدول addresses
+CREATE TABLE addresses (
+id INT AUTO_INCREMENT PRIMARY KEY,
+user_id INT NOT NULL,
+street VARCHAR(255) NOT NULL,
+city VARCHAR(255) NOT NULL,
+postal_code VARCHAR(20),
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+-- جدول surveys
+CREATE TABLE surveys (
+id INT AUTO_INCREMENT PRIMARY KEY,
+title VARCHAR(255) NOT NULL,
+questions JSON NOT NULL,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- جدول seo
+CREATE TABLE seo (
+id INT AUTO_INCREMENT PRIMARY KEY,
+page_id INT NOT NULL,
+meta_title VARCHAR(255) NOT NULL,
+meta_description TEXT NOT NULL,
+keywords JSON DEFAULT NULL,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY (page_id) REFERENCES pages(id)
+);
+
+-- جدول banners
+CREATE TABLE banners (
+id INT AUTO_INCREMENT PRIMARY KEY,
+title VARCHAR(255) NOT NULL,
+image VARCHAR(255) NOT NULL,
+link VARCHAR(255) NOT NULL,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- جدول live_chats
+CREATE TABLE live_chats (
+id INT AUTO_INCREMENT PRIMARY KEY,
+user_id INT NOT NULL,
+message TEXT NOT NULL,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+-- جدول error_logs
+CREATE TABLE error_logs (
+id INT AUTO_INCREMENT PRIMARY KEY,
+error TEXT NOT NULL,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- جدول analytics
+CREATE TABLE analytics (
+id INT AUTO_INCREMENT PRIMARY KEY,
+event VARCHAR(255) NOT NULL,
+user_id INT DEFAULT NULL,
+data JSON DEFAULT NULL,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+-- جدول files
+CREATE TABLE files (
+id INT AUTO_INCREMENT PRIMARY KEY,
+path VARCHAR(255) NOT NULL,
+user_id INT NOT NULL,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+-- جدول push_notifications
+CREATE TABLE push_notifications (
+id INT AUTO_INCREMENT PRIMARY KEY,
+user_id INT NOT NULL,
+message TEXT NOT NULL,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+-- جدول logs
+CREATE TABLE logs (
+id INT AUTO_INCREMENT PRIMARY KEY,
+event VARCHAR(255) NOT NULL,
+data JSON NOT NULL,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- جدول user_notifications
+CREATE TABLE user_notifications (
+id INT AUTO_INCREMENT PRIMARY KEY,
+user_id INT NOT NULL,
+message TEXT NOT NULL,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+-- جدول subscriptions
+CREATE TABLE subscriptions (
+id INT AUTO_INCREMENT PRIMARY KEY,
+user_id INT NOT NULL,
+plan VARCHAR(50) NOT NULL,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+-- جدول inventory
+CREATE TABLE inventory (
+id INT AUTO_INCREMENT PRIMARY KEY,
+product_id INT NOT NULL,
+warehouse_id INT NOT NULL,
+stock INT NOT NULL,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY (product_id) REFERENCES products(id),
+FOREIGN KEY (warehouse_id) REFERENCES warehouses(id)
+);
+
+-- جدول refunds
+CREATE TABLE refunds (
+id INT AUTO_INCREMENT PRIMARY KEY,
+order_id INT NOT NULL,
+amount DECIMAL(10, 2) NOT NULL,
+reason TEXT,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY (order_id) REFERENCES orders(id)
+);
+
+-- جدول system_logs
+CREATE TABLE system_logs (
+id INT AUTO_INCREMENT PRIMARY KEY,
+event VARCHAR(255) NOT NULL,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- جدول queues
+CREATE TABLE queues (
+id INT AUTO_INCREMENT PRIMARY KEY,
+task TEXT NOT NULL,
+status VARCHAR(50) DEFAULT 'pending',
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- جدول roles
+CREATE TABLE roles (
+id INT AUTO_INCREMENT PRIMARY KEY,
+name VARCHAR(50) NOT NULL,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- جدول permissions
+CREATE TABLE permissions (
+id INT AUTO_INCREMENT PRIMARY KEY,
+role_id INT NOT NULL,
+permission VARCHAR(255) NOT NULL,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY (role_id) REFERENCES roles(id)
+);
+
+-- جدول cache
+CREATE TABLE cache (
+id INT AUTO_INCREMENT PRIMARY KEY,
+`key` VARCHAR(255) UNIQUE NOT NULL,
+`value` TEXT NOT NULL,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- جدول localizations
+CREATE TABLE localizations (
+id INT AUTO_INCREMENT PRIMARY KEY,
+`key` VARCHAR(255) NOT NULL,
+locale VARCHAR(10) NOT NULL,
+`value` TEXT NOT NULL,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- جدول messages
+CREATE TABLE messages (
+id INT AUTO_INCREMENT PRIMARY KEY,
+sender_id INT NOT NULL,
+receiver_id INT NOT NULL,
+content TEXT NOT NULL,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY (sender_id) REFERENCES users(id),
+FOREIGN KEY (receiver_id) REFERENCES users(id)
+);
+
+-- جدول rewards
+CREATE TABLE rewards (
+id INT AUTO_INCREMENT PRIMARY KEY,
+user_id INT NOT NULL,
+points INT NOT NULL,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY (user_id) REFERENCES users(id)
+);

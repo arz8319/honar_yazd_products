@@ -1,0 +1,16 @@
+# Ignore environment files
+.env
+
+# Ignore SQLite database
+database.db
+
+# Ignore vendor dependencies (if any)
+vendor/
+
+# Ignore temporary files
+*.log
+*.tmp
+
+# Ignore IDE files
+.idea/
+.vscode/

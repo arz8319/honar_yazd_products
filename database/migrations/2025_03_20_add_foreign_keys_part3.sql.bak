@@ -1,0 +1,9 @@
+ALTER TABLE ticket_replies
+ADD CONSTRAINT fk_ticket_replies_ticket_id FOREIGN KEY (ticket_id) REFERENCES tickets(id) ON DELETE CASCADE,
+ADD CONSTRAINT fk_ticket_replies_user_id FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
+
+ALTER TABLE categories
+ADD CONSTRAINT fk_categories_parent_id FOREIGN KEY (parent_id) REFERENCES categories(id) ON DELETE SET NULL;
+
+ALTER TABLE poll_options
+ADD CONSTRAINT fk_poll_options_poll_id FOREIGN KEY (poll_id) REFERENCES polls(id) ON DELETE CASCADE;
