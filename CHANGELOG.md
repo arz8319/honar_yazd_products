@@ -34,3 +34,8 @@
 ## 2025-03-28
 - فایل: app/Controllers/HomeController.php
   - تغییر: اصلاح مسیر فایل index.php و اضافه کردن سیستم ترجمه
+
+## 2025-03-28
+- فایل: routes/web.php
+  - تغییر: اضافه کردن مسیر /index.php برای HomeController::index
+

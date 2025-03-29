@@ -19,6 +19,7 @@ $routes = [
     'GET' => [
         // مسیرهای اصلی سایت
         '/' => [HomeController::class, 'index'],
+        '/index.php' => [HomeController::class, 'index'],
         '/products' => [ProductController::class, 'index'],
         '/product/(\d+)' => [ProductController::class, 'show'],
         '/cart' => [CartController::class, 'index'],
