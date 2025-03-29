@@ -30,3 +30,7 @@
   - تغییر: پر کردن جدول translations با داده‌های زبان‌های fa, en, ar
 - فایل: update_products.php
   - تغییر: آپدیت ستون featured برای محصولات Laptop و
+
+## 2025-03-28
+- فایل: app/Controllers/HomeController.php
+  - تغییر: اصلاح مسیر فایل index.php و اضافه کردن سیستم ترجمه
